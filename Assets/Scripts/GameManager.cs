@@ -2,19 +2,42 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnManager : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
+    public static GameManager instance { get; private set; }
+
     public GameObject minePrefab;
     public GameObject superMinePrefab;
     public GameObject eMinePrefab;
-    
+
     private float spawnIntervalCounter;
     private float rX, rY, rZ;
     private int rnd;
-    // Start is called before the first frame update
-    void Start()
+
+    private int score;
+
+    public int GetScore()
+    {
+        return score;
+    }
+    public void SetScore0()
+    {
+        score = 0;
+    }
+    public void SetScorePlus(int add)
+    {
+        //score should only be added to. Resetting score should be done with SetScore0
+        if (add < 0)
+        {
+            add *= -1;
+        }
+        score += add;
+    }
+
+    private void Awake()
     {
         spawnIntervalCounter = 2;
+        instance = this;
     }
 
     // Update is called once per frame
@@ -25,7 +48,7 @@ public class SpawnManager : MonoBehaviour
     void UpdateCounter()
     {
         spawnIntervalCounter -= Time.deltaTime;
-        if(spawnIntervalCounter <= 0)
+        if (spawnIntervalCounter <= 0)
         {
             SpawnMine();
         }
