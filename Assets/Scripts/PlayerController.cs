@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour
             gameObject.GetComponent<Rigidbody>().AddForce(0f, 5000f, 0f, ForceMode.Impulse);
         }
 
-        //no matter how player moves, sun must follow
+        //no matter how player moves, sun must follow to ensure shadow remains square
         SunFollow();
     }
     void SunFollow()
@@ -64,6 +64,7 @@ public class PlayerController : MonoBehaviour
         rY = Random.Range(3000f, 5000f);
         rZ = Random.Range(-1000f, 1000f);
 
+        //###handle this in the child mine script so that you don't need a case statement
         //@@@mineCombo++;
         if (tag == "Super Mine")
         {
