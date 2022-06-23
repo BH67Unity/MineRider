@@ -12,7 +12,8 @@ public class PlayerController : MonoBehaviour
 
     private float horzInput;
     private float vertInput;
-    private float movementMagnitude = 5f;
+    private float movementMagnitude = 10f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,37 +48,17 @@ public class PlayerController : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        //if collide with mine, generate a randomize blast force and blast player upwards
-        GenPlayerMineBlast(other.tag);
-        Destroy(other.gameObject);
-    }
-    void GenPlayerMineBlast(string tag)
-    {
-        //zero out any pre-existing velocity transforms. This also ensures each blast doesn't fight against
-            //the player's own downward velocity, therefore making the blast strength more reliable
+        //reset any existing velocity so it doesn't fight the new mine explosion
         playerRB.velocity = new Vector3(0f, 0f, 0f);
 
-        //main idea is that special mines will have their own, more powerful set of arguments, including greater
-            //weight toward earning e-jumps.
-        float rX, rY, rZ;
-        rX = Random.Range(-1000f, 1000f);
-        rY = Random.Range(3000f, 5000f);
-        rZ = Random.Range(-1000f, 1000f);
+        //apply pregenerated forces to player
+        other.gameObject.GetComponent<MineAbstract>().ApplyMineForce(playerRB);
 
-        //###handle this in the child mine script so that you don't need a case statement
-        //@@@mineCombo++;
-        if (tag == "Super Mine")
-        {
-            rY *= 2;
-            //@@@mineCombo += 2;
-        }
-        else if (tag == "E-Mine")
-        {
-            //@@@eJumps++;
-            //@@@mineCombo += 4;
-        }
-        //###ADD RANDOM ANGULAR VELOCITIES TOO, AS WELL AS GRADUAL REDUCTION IN ROTATION WHILE AIRBORNE (ANGULAR DRAG?)
-
-        gameObject.GetComponent<Rigidbody>().AddForce(rX, rY, rZ, ForceMode.Impulse);
+        //increment score and destroy
+        GameManager.instance.SetScorePlus(other.GetComponent<MineAbstract>().GetScoreValue());
+        //###SDTZ
+        print(GameManager.instance.GetScore());
+        //###EDTZ
+        Destroy(other.gameObject);
     }
 }
