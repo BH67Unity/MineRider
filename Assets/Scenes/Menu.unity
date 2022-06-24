@@ -2273,6 +2273,12 @@ MonoBehaviour:
   startButton: {fileID: 1465981430}
   resetHighScoresButton: {fileID: 532234248}
   quitButton: {fileID: 1126550456}
+  name1Text: {fileID: 1918252088}
+  name2Text: {fileID: 666933544}
+  name3Text: {fileID: 193361352}
+  score1Text: {fileID: 1159567928}
+  score2Text: {fileID: 466084711}
+  score3Text: {fileID: 24455149}
 --- !u!4 &1507085070
 Transform:
   m_ObjectHideFlags: 0

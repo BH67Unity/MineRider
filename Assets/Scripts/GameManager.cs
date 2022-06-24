@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject scoreText;
     [SerializeField] GameObject returnToMenuButton;
 
+    [SerializeField] GameObject spawnPlatform;
 
     [SerializeField] GameObject minePrefab;
     [SerializeField] GameObject superMinePrefab;
@@ -29,12 +30,16 @@ public class GameManager : MonoBehaviour
     }
     public void ResetScore()
     {
+        //reset score
         score = 0;
         UpdateScoreText();
+
+        //reset internal currentPlace, which is used to determine where score fits in highscores list
+        Mast.Er.ResetCurrentPlace();
     }
     public void SetScorePlus(int add)
     {
-        //score should only be added to. Resetting score should be done with SetScore0
+        //score should only be added to. Resetting score should be done with ResetScore()
         if (add < 0)
         {
             add *= -1;
@@ -121,8 +126,14 @@ public class GameManager : MonoBehaviour
 
         spawnIntervalCounter = Random.Range(0.5f, 1f);
     }
+    public void resetSpawnPlatform()
+    {
+        spawnPlatform.SetActive(true);
+    }
     public void ReturnToMenuClicked()
     {
+        Mast.Er.ResetCurrentPlace();
+        Mast.Er.RecordScore(score);
         Mast.Er.SceneGameToMenu();
     }
 }
