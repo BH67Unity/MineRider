@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class MineAbstract : MonoBehaviour
+public abstract class MineAbstract : MonoBehaviour //INHERITANCE (see the other 5 mine classes)
 {
     protected float moveSpeed = -10;
     protected int scoreValue;
@@ -13,7 +13,7 @@ public abstract class MineAbstract : MonoBehaviour
         return scoreValue;
     }
 
-    public abstract void GenMineForce();
+    public abstract void GenMineForce(); //POLYMORPHISM (see the other 5 mine classes
     public abstract void CollisionExtras();
 
     protected virtual void Start()

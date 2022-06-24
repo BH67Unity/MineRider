@@ -8,7 +8,7 @@ using System.IO; //required for file IO
 
 public class Mast : MonoBehaviour
 {
-    public static Mast Er { get; private set; }
+    public static Mast Er { get; private set; } //ENCAPSULATION (auto)
 
     private string playerName;
     public string name1, name2, name3;
@@ -18,7 +18,7 @@ public class Mast : MonoBehaviour
     {
         return playerName;
     }
-    public void SetPlayerName(string name)
+    public void SetPlayerName(string name) //ENCAPSULATION (manual)
     {
         if (name == "" || name == null)
         {
@@ -63,7 +63,7 @@ public class Mast : MonoBehaviour
         public string name1, name2, name3;
         public int score1, score2, score3;
     }
-    public void SaveData()
+    public void SaveData() //ABSTRACTION (as if it's hard to find another example of that!) =D
     {
         //create new SaveData object and populate it with the current highscores
         SData data = new SData();

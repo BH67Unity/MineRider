@@ -19,6 +19,6 @@ public class MineEJump : MineAbstract
     }
     public override void CollisionExtras()
     {
-        //###gamemanager.ejumps++
+        GameManager.instance.SetEJumpsIncrement();
     }
 }

@@ -1,28 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro; //required for UI
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance { get; private set; }
 
-    public GameObject minePrefab;
-    public GameObject superMinePrefab;
-    public GameObject eMinePrefab;
+    [SerializeField] GameObject eJumpsText;
+    [SerializeField] GameObject scoreText;
+    [SerializeField] GameObject returnToMenuButton;
+
+
+    [SerializeField] GameObject minePrefab;
+    [SerializeField] GameObject superMinePrefab;
+    [SerializeField] GameObject eMinePrefab;
 
     private float spawnIntervalCounter;
     private float rX, rY, rZ;
     private int rnd;
 
-    private int score;
+    private int score = 0;
+    private int eJumps = 3;
 
     public int GetScore()
     {
         return score;
     }
-    public void SetScore0()
+    public void ResetScore()
     {
         score = 0;
+        UpdateScoreText();
     }
     public void SetScorePlus(int add)
     {
@@ -32,14 +40,50 @@ public class GameManager : MonoBehaviour
             add *= -1;
         }
         score += add;
+        UpdateScoreText();
     }
-
+    private void UpdateScoreText()
+    {
+        scoreText.GetComponent<TextMeshProUGUI>().text = "Score: " + score;
+    }
+    public int GetEJumps()
+    {
+        return eJumps;
+    }
+    public void SetEJumpsIncrement()
+    {
+        eJumps++;
+        UpdateEJumpsText();
+    }
+    public bool SetEJumpsDecrement()
+    {
+        if(eJumps > 0) //ejumps remaining
+        {
+            eJumps--;
+            UpdateEJumpsText();
+            return true;
+        }
+        else //no ejumps remaining - therefore, ejump functionality will not happen!
+        {
+            return false;
+        }
+    }
+    public void ResetEJumps()
+    {
+        eJumps = 3;
+        UpdateEJumpsText();
+    }
+    private void UpdateEJumpsText()
+    {
+        eJumpsText.GetComponent<TextMeshProUGUI>().text = "E-Jumps: " + eJumps;
+    }
     private void Awake()
     {
         spawnIntervalCounter = 2;
         instance = this;
     }
-
+    
+    //~~~FUNCTIONALITY
     // Update is called once per frame
     void Update()
     {
@@ -76,5 +120,9 @@ public class GameManager : MonoBehaviour
         }
 
         spawnIntervalCounter = Random.Range(0.5f, 1f);
+    }
+    public void ReturnToMenuClicked()
+    {
+        Mast.Er.SceneGameToMenu();
     }
 }

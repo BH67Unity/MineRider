@@ -32,10 +32,10 @@ public class PlayerController : MonoBehaviour
             0f,
             vertInput * movementMagnitude * Time.deltaTime);
 
-        //jump onSpace
+        //onSpace, use an E-Jump manually if available
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            gameObject.GetComponent<Rigidbody>().AddForce(0f, 5000f, 0f, ForceMode.Impulse);
+            UseEJump(false);
         }
 
         //no matter how player moves, sun must follow to ensure shadow remains square
@@ -56,9 +56,28 @@ public class PlayerController : MonoBehaviour
 
         //increment score and destroy
         GameManager.instance.SetScorePlus(other.GetComponent<MineAbstract>().GetScoreValue());
-        //###SDTZ
-        print(GameManager.instance.GetScore());
-        //###EDTZ
         Destroy(other.gameObject);
+    }
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Ground"))
+        {
+            UseEJump(true);
+        }
+    }
+    private void UseEJump(bool onGround)
+    {
+        if(GameManager.instance.SetEJumpsDecrement())
+        {
+            playerRB.AddForce(0, 12000, 0, ForceMode.Impulse);
+        }
+        else
+        {
+            if(onGround)
+            {
+                GameManager.instance.ResetEJumps();
+                GameManager.instance.ResetScore();
+            }
+        }
     }
 }
